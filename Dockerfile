@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update && \
-    apt-get install -y git openssh-client wget curl unzip bash ttf-dejavu coreutils
+    apt-get install -y git openssh-client wget curl unzip bash ttf-dejavu coreutils default-jdk
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT 50000
@@ -14,12 +14,13 @@ ARG gid=1000
 # Jenkins is run with user `jenkins`, uid = 1000
 # If you bind mount a volume from the host or a data container, 
 # ensure you use the same uid
-RUN addgroup --gid ${gid} ${group}
-RUN useradd -d /home/jenkins --uid ${uid} -g ${group} --shell /bin/bash ${user}
+RUN addgroup --gid ${gid} ${group} && \
+    useradd -d /home/jenkins --uid ${uid} -g ${group} --shell /bin/bash ${user}
 
 ENV JENKINS_SWARM_VERSION 2.2
 RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${JENKINS_SWARM_VERSION}/swarm-client-${JENKINS_SWARM_VERSION}-jar-with-dependencies.jar && \
     chmod 755 /usr/share/jenkins
+RUN ls -al /usr/share/jenkins/    
 
 #RUN mkdir /opt
 
