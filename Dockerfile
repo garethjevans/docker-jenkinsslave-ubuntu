@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update && \
-    apt-get install -y git openssh-client wget curl unzip bash ttf-dejavu coreutils default-jdk
+    apt-get install -y git openssh-client wget curl unzip bash ttf-dejavu coreutils default-jdk locales
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT 50000
